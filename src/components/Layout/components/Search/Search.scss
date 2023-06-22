@@ -1,0 +1,98 @@
+
+.box {
+    width: 361px;
+    
+}
+.search-title{
+    color: rgb(160, 156, 156);
+}
+.wrapper-search {
+    border: 1.5px solid transparent;
+    width: 415px;
+    height: 46px;
+    background-color: rgba(22, 24, 35, 0.06);
+    display: flex;
+    padding-left: 16px;
+    align-items: center;
+    border-radius: 92px;
+    position: relative;
+
+    &::after {
+        content: '';
+        position: absolute;
+        top: 9px;
+        right: 52px;
+        width: 1px;
+        height: 28px;
+        background-color: var(--color-Placefoder);
+    }
+
+    input {
+        flex: 1;
+        width: 346px;
+        padding-right: 40px;
+        height: 22px;
+        border: none;
+        outline: none;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 22px;
+        background-color: transparent;
+        caret-color: var(--color-Primary);
+        &::placeholder {
+            color: var(--color-Placefoder);
+        }
+    }
+
+    input:not(:placeholder-shown) ~ .search-btn {
+        color: rgba(22, 24, 35, 0.75);
+    }
+
+    &:focus-within {
+        border: 1.5px solid rgba(22, 24, 35, 0.2);
+    }
+}
+.clear,
+.loading {
+    margin: 0 12px;
+    border: none;
+    color: var(--color-Placefoder);
+    font-size: 15px;
+    position: absolute;
+    right: 52px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+.loading{
+    animation: spinner 1s linear infinite;
+}
+
+@keyframes spinner {
+    from {
+        transform:translateY(-50%) rotate(0);
+    }
+    to{
+        transform:translateY(-50%) rotate(360deg);
+    }
+    
+}
+.search-btn {
+    width: 52px;
+    height: 41px;
+    border: none;
+    border-bottom-right-radius: 92px;
+    border-top-right-radius: 92px;
+    outline: none;
+    cursor: pointer;
+    font-size: 20px;
+    margin-left: 0;
+    color: var(--color-Placefoder);
+    &:hover {
+        background-color: var(--color-HoverSearch);
+    }
+
+    &:active {
+        background-color: rgba(22, 24, 35, 0.06);
+    }
+}

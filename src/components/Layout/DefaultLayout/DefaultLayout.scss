@@ -8,6 +8,8 @@
 .container {
     width: var(--default-layout-header-width);
     display: flex;
+    margin-top: 60px;
+    max-width: 100%;
 }
 
 .content {

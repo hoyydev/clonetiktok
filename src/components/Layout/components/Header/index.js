@@ -1,22 +1,25 @@
-import { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-    faCircleXmark,
-    faSpinner,
-    faMagnifyingGlass,
     faPlus,
     faEllipsisVertical,
     faEarthAmericas,
     faCircleQuestion,
     faKeyboard,
+    faUser,
+    faCoins,
+    faGear,
 } from '@fortawesome/free-solid-svg-icons';
-import Tippy from '@tippyjs/react/headless';
+import { Link } from 'react-router-dom';
+// import Tippy from '@tippyjs/react';
+import routesConfig from '../../../../config/routes';
 import Button from '../../../Button';
-import { Wrapper as PropperWrapper } from '../../../Propper';
 import styles from './Header.scss';
 import images from '../../../../assets/images';
 import Menu from '../../../Propper/Menu';
+import { MessIcon, SentIcon } from '../../../Icons';
+import Image from '../../../Image';
+import Search from '../Search';
 
 const cx = classNames.bind(styles);
 
@@ -36,53 +39,72 @@ const MENU_ITEMS = [
     },
 ];
 function Header() {
-    const [searchResult, setSearchResult] = useState([]);
-    useEffect(() => {
-        setTimeout(() => {
-            setSearchResult([1, 2]);
-        }, 2000);
-    }, []);
+    const CurrentUser = true;
+    const userMenu = [
+        {
+            icon: <FontAwesomeIcon icon={faUser} />,
+            title: 'View Profile',
+            to: '/@phuc',
+        },
+        {
+            icon: <FontAwesomeIcon icon={faCoins} />,
+            title: 'Get Coins',
+            to: '/coins',
+        },
+        {
+            icon: <FontAwesomeIcon icon={faGear} />,
+            title: 'Settings',
+            to: '/feeback',
+        },
+        ...MENU_ITEMS,
+    ];
 
     return (
         <header className={cx('wrapper')}>
             <div className={cx('wrapper-content')}>
-                <div className={cx('wrapper-logo')}>
+                <Link to={routesConfig.home} className={cx('wrapper-logo')}>
                     <img src={images.logo} alt="" />
-                </div>
-
-                <Tippy
-                    interactive
-                    visible={searchResult.length > 0}
-                    render={(attrs) => (
-                        <div className={cx('box')} tabIndex="-1" {...attrs}>
-                            <PropperWrapper>
-                                <h4 className={cx('search-title')}>nguyen van phuc</h4>
-                            </PropperWrapper>
-                        </div>
-                    )}
-                >
-                    <div className={cx('wrapper-search')}>
-                        <input type="text" placeholder="Search account and videos" spellCheck="false" />
-                        <button className={cx('clear')}>
-                            <FontAwesomeIcon icon={faCircleXmark} />
-                        </button>
-                        <FontAwesomeIcon className={cx('loading')} icon={faSpinner} />
-                        <button className={cx('search-btn')}>
-                            <FontAwesomeIcon icon={faMagnifyingGlass} />
-                        </button>
-                    </div>
-                </Tippy>
+                </Link>
+                {/* funtion Search  */}
+                <Search />
 
                 <div className={cx('actions')}>
-                    <Button defaults>
-                        <FontAwesomeIcon icon={faPlus} style={{ marginRight: '8px' }} />
-                        Upload
-                    </Button>
-                    <Button primary>Log in</Button>
-                    <Menu items={MENU_ITEMS}>
-                        <button className={cx('more-btn')}>
-                            <FontAwesomeIcon icon={faEllipsisVertical} />
-                        </button>
+                    {CurrentUser ? (
+                        <>
+                            <Button defaults>
+                                <FontAwesomeIcon icon={faPlus} style={{ marginRight: '8px' }} />
+                                Upload
+                            </Button>
+                            <button className={cx('action-btn')}>
+                                <SentIcon />
+                            </button>
+
+                            <button className={cx('action-btn')}>
+                                <MessIcon />
+                            </button>
+                        </>
+                    ) : (
+                        <>
+                            <Button defaults>
+                                <FontAwesomeIcon icon={faPlus} style={{ marginRight: '8px' }} />
+                                Upload
+                            </Button>
+                            <Button primary>Log in</Button>
+                        </>
+                    )}
+                    <Menu items={CurrentUser ? userMenu : MENU_ITEMS}>
+                        {CurrentUser ? (
+                            <Image
+                                style={{ objectFit: 'cover' }}
+                                src="https://scontent.fhan14-4.fna.fbcdn.net/v/t39.30808-6/344382960_1757727504747234_666932397048747887_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=7DgDsptBKb8AX-70Nkw&_nc_ht=scontent.fhan14-4.fna&oh=00_AfAGVvmjiVWHlbtpST3iYDrc4-LPx8IGe5GPFV0p6tcQ6A&oe=647D7ECC"
+                                className={cx('user-avt')}
+                                alt="nguyen van phuc"
+                            />
+                        ) : (
+                            <button className={cx('more-btn')}>
+                                <FontAwesomeIcon icon={faEllipsisVertical} />
+                            </button>
+                        )}
                     </Menu>
                 </div>
             </div>
